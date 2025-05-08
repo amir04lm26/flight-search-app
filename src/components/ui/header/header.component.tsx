@@ -1,3 +1,4 @@
+import Image from "next/image";
 import AuthModal from "../auth-modal/auth-modal.component";
 
 export function Header() {
@@ -5,7 +6,13 @@ export function Header() {
     <header className='bg-white shadow-md'>
       <div className='max-w-7xl mx-auto px-4 py-3 flex items-center justify-between'>
         <div className='flex items-center space-x-2'>
-          <img src='/logo.svg' alt='Air Travel Co' className='h-8 w-auto' />
+          <Image
+            src='/logo.svg'
+            alt='Air Travel Co'
+            width={32}
+            height={32}
+            className='w-auto h-8'
+          />
           <span className='text-secondary font-bold text-xl'>
             Air Travel Co
           </span>

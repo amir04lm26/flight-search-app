@@ -80,7 +80,7 @@ export default function AuthModal() {
             <p className='text-center text-sm mt-4'>
               {mode === "login" ? (
                 <>
-                  Don't have an account?{" "}
+                  Don&apos;t have an account?{" "}
                   <Button onClick={toggleMode} variant='text'>
                     Sign up
                   </Button>

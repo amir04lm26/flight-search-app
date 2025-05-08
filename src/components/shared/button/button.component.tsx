@@ -41,7 +41,7 @@ export function Button({
       className={clsx(
         baseStyles,
         variant !== "icon" && variant !== "text" && sizeStyles[size],
-        variant !== "text" && ringStyle,
+        variant !== "icon" && variant !== "text" && ringStyle,
         variantStyles[variant],
         fullWidth && "w-full",
         className

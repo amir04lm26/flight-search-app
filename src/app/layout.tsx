@@ -23,7 +23,6 @@ export const metadata: Metadata = {
   authors: [
     { name: "Alibaba Travel Services", url: "https://www.example.com" },
   ],
-  viewport: "width=device-width, initial-scale=1.0",
   robots: "noindex, nofollow",
 };
 
