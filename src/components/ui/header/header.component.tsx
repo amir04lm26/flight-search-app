@@ -3,7 +3,7 @@ import AuthModal from "../auth-modal/auth-modal.component";
 
 export function Header() {
   return (
-    <header className='bg-white shadow-md'>
+    <header className='bg-white dark:bg-gray-900 shadow-md dark:shadow-none'>
       <div className='max-w-7xl mx-auto px-4 py-3 flex items-center justify-between'>
         <div className='flex items-center space-x-2'>
           <Image
@@ -13,7 +13,7 @@ export function Header() {
             height={32}
             className='w-auto h-8'
           />
-          <span className='text-secondary font-bold text-xl'>
+          <span className='text-secondary dark:text-primary-light font-bold text-xl'>
             Air Travel Co
           </span>
         </div>

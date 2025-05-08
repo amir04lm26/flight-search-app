@@ -16,13 +16,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alibaba | Book Flights, Trains, Buses & Hotels in Iran",
+  title: "Air | Book Flights, Trains, Buses & Hotels in Iran",
   description:
-    "Book flight, train, and bus tickets or reserve hotels across Iran with Alibaba. Enjoy 24/7 support, the best prices, and a trusted travel experience.",
+    "Book flight, train, and bus tickets or reserve hotels across Iran with Air. Enjoy 24/7 support, the best prices, and a trusted travel experience.",
   keywords:
-    "Alibaba Iran, flight tickets, train tickets, bus tickets, hotel booking, travel services, cheap tickets, Iran travel, travel booking",
+    "Air Iran, flight tickets, train tickets, bus tickets, hotel booking, travel services, cheap tickets, Iran travel, travel booking",
   authors: [
-    { name: "Alibaba Travel Services", url: "https://www.example.com" },
+    { name: "Air Travel Services", url: "https://www.example.com" },
   ],
   robots: "noindex, nofollow",
   icons: {

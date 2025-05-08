@@ -35,15 +35,15 @@ export default function AuthModal() {
 
       {isOpen && (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
-          <div className='bg-white rounded-xl w-full max-w-md p-6 shadow-lg relative animate-fade-in'>
+          <div className='bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-xl w-full max-w-md p-6 shadow-lg relative animate-fade-in'>
             <Button
               onClick={toggleIsOpen}
               variant='icon'
-              className='absolute top-3 right-3'>
+              className='absolute top-3 right-3 text-gray-500 dark:text-gray-300'>
               ✕
             </Button>
 
-            <h2 className='text-xl font-semibold text-secondary mb-4 text-center'>
+            <h2 className='text-xl font-semibold text-secondary dark:text-primary-light mb-4 text-center'>
               {mode === "login" ? "Login to Your Account" : "Create an Account"}
             </h2>
 
@@ -77,7 +77,7 @@ export default function AuthModal() {
               </Button>
             </form>
 
-            <p className='text-center text-sm mt-4'>
+            <p className='text-center text-sm mt-4 text-gray-600 dark:text-gray-400'>
               {mode === "login" ? (
                 <>
                   Don&apos;t have an account?{" "}

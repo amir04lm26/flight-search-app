@@ -22,7 +22,7 @@ export const Input = ({
   ...rest
 }: InputProps) => {
   return (
-    <div className='relative'>
+    <div className='mb-5'>
       <input
         type={type}
         placeholder={placeholder}
@@ -32,14 +32,19 @@ export const Input = ({
         className={clsx(
           "w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2",
           {
-            "bg-gray-200 text-gray-500 cursor-not-allowed": disabled,
-            "border-danger focus:ring-danger": !disabled && error,
-            "border-gray-300 focus:ring-primary": !disabled && !error,
+            "bg-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:text-gray-400":
+              disabled,
+            "border-danger focus:ring-danger dark:border-red-500 dark:focus:ring-red-500":
+              !disabled && error,
+            "border-gray-300 focus:ring-primary dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400":
+              !disabled && !error,
           }
         )}
         {...rest}
       />
-      {error && <p className='absolute text-xs text-danger mt-1'>{error}</p>}
+      {error && (
+        <p className='text-xs text-danger mt-1 dark:text-red-400'>{error}</p>
+      )}
     </div>
   );
 };
