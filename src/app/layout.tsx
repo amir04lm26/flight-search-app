@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ReactNode } from "react";
 import { Header } from "@components/ui/header/header.component";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,6 +25,9 @@ export const metadata: Metadata = {
     { name: "Alibaba Travel Services", url: "https://www.example.com" },
   ],
   robots: "noindex, nofollow",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -33,6 +37,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
+      <Head>
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Header />

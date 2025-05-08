@@ -1,0 +1,31 @@
+services:
+  next-service:
+    build:
+      context: .
+      dockerfile: ./dockerfile
+    restart: always
+    ports:
+      - "80:3000"
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
+    depends_on:
+      - postgres
+
+
+  postgres:
+    image: "postgres:17.4"
+    ports: 
+      -  "5435:5432" 
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./db-data/postgres/:/var/lib/postgresql/data/
