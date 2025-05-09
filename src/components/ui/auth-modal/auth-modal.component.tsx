@@ -5,28 +5,46 @@ import { useForm } from "react-hook-form";
 import { Button } from "@components/shared/button/button.component";
 import { Input } from "@components/shared/input/input.component";
 import { useToggle } from "react-use";
-
-interface FormData {
-  email: string;
-  password: string;
-  confirmPassword?: string;
-}
+import { handleLogin, handleSignup, IFormData } from "@utils/auth/auth.util";
 
 export default function AuthModal() {
   const [isOpen, toggleIsOpen] = useToggle(false);
   const [mode, setMode] = useState<"login" | "signup">("login");
+  const [error, setError] = useState<string | null>(null);
+
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+    reset,
+  } = useForm<IFormData>();
 
-  const toggleMode = () => setMode(mode === "login" ? "signup" : "login");
+  const toggleMode = () => {
+    setMode((prevMode) => (prevMode === "login" ? "signup" : "login"));
+    setError(null);
+  };
 
-  const onSubmit = (data: FormData) => {
-    // Handle form submission logic here
-    console.log({ data });
+  const closeModal = () => {
+    toggleIsOpen();
+    reset();
+    setError(null);
+  };
+
+  const onSubmit = async (data: IFormData) => {
+    try {
+      if (mode === "login") {
+        await handleLogin(data);
+        closeModal();
+      } else {
+        await handleSignup(data);
+        toggleMode();
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "An unknown error occurred"
+      );
+    }
   };
 
   return (
@@ -37,7 +55,7 @@ export default function AuthModal() {
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
           <div className='bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-xl w-full max-w-md p-6 shadow-lg relative animate-fade-in'>
             <Button
-              onClick={toggleIsOpen}
+              onClick={closeModal}
               variant='icon'
               className='absolute top-3 right-3 text-gray-500 dark:text-gray-300'>
               ✕
@@ -47,7 +65,21 @@ export default function AuthModal() {
               {mode === "login" ? "Login to Your Account" : "Create an Account"}
             </h2>
 
+            {error && (
+              <div className='mb-4 text-red-500 text-sm text-center'>
+                {error}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+              {mode === "signup" && (
+                <Input
+                  type='text'
+                  placeholder='Full Name'
+                  {...register("name", { required: "Name is required" })}
+                  error={errors.name?.message}
+                />
+              )}
               <Input
                 type='email'
                 placeholder='Email'

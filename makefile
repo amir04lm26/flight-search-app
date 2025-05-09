@@ -1,3 +1,9 @@
+# Load environment variables from .env file if it exists
+ifneq (,$(wildcard .env))
+	include .env
+	export
+endif
+
 up: ## Start all services
 	@echo "Starting Docker images..."
 	docker-compose up -d
@@ -31,12 +37,23 @@ restart: ## Restart all services
 	$(MAKE) up
 	@echo "Done!"
 
-## Database
 
+## Database
 db-shell: ## Open psql shell to the database
-	docker exec -it $$(docker ps -qf "name=postgres") psql -h localhost -p 5435 -U $$(echo $$POSTGRES_USER) -d $$(echo $$POSTGRES_DB)
+	PGPASSWORD=$$POSTGRES_PASSWORD docker exec -e PGPASSWORD=$$POSTGRES_PASSWORD -it flight-search-app-postgres-1 \
+	psql -h localhost -p 5432 -U $$POSTGRES_USER -d $$POSTGRES_DB
+
+db-migrate: ## Apply schema changes using Drizzle
+	@echo "Migrating database schema with Drizzle(Generate + Migrate)..."
+	npx drizzle-kit push
+	@echo "Database migration complete!"
+
+
+## Redis
+redis-shell: ## Open a Redis CLI shell to the Redis container
+	docker exec -it flight-search-app-redis-1 redis-cli
+
 
 ## Testing
-
 test: ## Run tests (you should customize this per your test runner)
 	docker exec -it $$(docker ps -qf "name=next-service") npm test
