@@ -1,5 +1,5 @@
 import { createClient, RedisClientType } from "redis";
-import { REDIS_URL } from "@configs/db.config";
+import { REDIS_URL } from "@configs/services.config";
 
 export class RedisClient {
   private static client: RedisClientType | null = null;

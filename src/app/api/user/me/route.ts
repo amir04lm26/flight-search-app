@@ -1,4 +1,4 @@
-import { JWT_SECRET } from "@configs/db.config";
+import { JWT_SECRET } from "@configs/services.config";
 import { RedisClient } from "@libs/redis/client";
 import { ResponseUtil } from "@utils/http/response";
 import { getToken } from "next-auth/jwt";
