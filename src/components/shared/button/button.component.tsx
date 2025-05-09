@@ -5,6 +5,8 @@ type ButtonProps = {
   variant?: "primary" | "secondary" | "outline" | "icon" | "text";
   size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
+  loading?: boolean;
+  disabled?: boolean;
   children: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -35,6 +37,8 @@ export function Button({
   variant = "primary",
   size = "md",
   fullWidth = false,
+  loading = false,
+  disabled = false,
   className,
   ...props
 }: ButtonProps) {
@@ -46,9 +50,14 @@ export function Button({
         variant !== "icon" && variant !== "text" && ringStyle,
         variantStyles[variant],
         fullWidth && "w-full",
+        (disabled || loading) && "opacity-50 cursor-not-allowed",
         className
       )}
+      disabled={disabled || loading}
       {...props}>
+      {loading ? (
+        <span className='animate-spin mr-2 h-4 w-4 border-2 border-t-transparent border-white rounded-full' />
+      ) : null}
       {children}
     </button>
   );

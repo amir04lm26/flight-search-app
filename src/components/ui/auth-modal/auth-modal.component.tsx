@@ -11,6 +11,7 @@ export default function AuthModal() {
   const [isOpen, toggleIsOpen] = useToggle(false);
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     register,
@@ -29,9 +30,11 @@ export default function AuthModal() {
     toggleIsOpen();
     reset();
     setError(null);
+    setIsSubmitting(false);
   };
 
   const onSubmit = async (data: IFormData) => {
+    setIsSubmitting(true);
     try {
       if (mode === "login") {
         await handleLogin(data);
@@ -44,6 +47,8 @@ export default function AuthModal() {
       setError(
         err instanceof Error ? err.message : "An unknown error occurred"
       );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -104,7 +109,7 @@ export default function AuthModal() {
                   error={errors.confirmPassword?.message}
                 />
               )}
-              <Button type='submit' fullWidth>
+              <Button type='submit' fullWidth loading={isSubmitting}>
                 {mode === "login" ? "Login" : "Sign Up"}
               </Button>
             </form>

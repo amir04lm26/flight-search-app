@@ -15,6 +15,7 @@ export const handleLogin = async (data: IFormData): Promise<boolean> => {
   });
 
   if (res?.error) throw new Error("Invalid email or password.");
+
   return true;
 };
 
@@ -29,11 +30,13 @@ export const handleSignup = async (data: IFormData): Promise<boolean> => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({ name, email, password }),
   });
 
-  const result = await response.json();
+  const res = await response.json();
 
-  if (response.ok) return true;
-  throw new Error(result.error ?? "An error occurred during signup.");
+  if (res.error)
+    throw new Error(res.message ?? "An error occurred during signup.");
+
+  return true;
 };
