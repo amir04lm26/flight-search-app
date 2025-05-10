@@ -2,9 +2,10 @@ import Image from "next/image";
 import AuthModal from "../auth-modal/auth-modal.component";
 import { useSession } from "next-auth/react";
 import { ProfileMenu } from "../profile/profile-menu.component";
+import { AuthSkeleton } from "./header-skeleton.component";
 
 export function Header() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <header className='bg-white dark:bg-gray-900 shadow-md dark:shadow-none h-16'>
@@ -23,7 +24,11 @@ export function Header() {
         </div>
 
         <div className='h-10 flex items-center'>
-          {session?.user ? <ProfileMenu /> : <AuthModal />}
+          {status === "loading" ? (
+            <AuthSkeleton />
+          ) : (
+            <>{session?.user ? <ProfileMenu /> : <AuthModal />}</>
+          )}
         </div>
       </div>
     </header>
