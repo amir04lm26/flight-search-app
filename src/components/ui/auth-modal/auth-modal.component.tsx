@@ -23,6 +23,7 @@ export default function AuthModal() {
 
   const toggleMode = () => {
     setMode((prevMode) => (prevMode === "login" ? "signup" : "login"));
+    reset();
     setError(null);
   };
 

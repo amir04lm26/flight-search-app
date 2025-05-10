@@ -6,7 +6,7 @@ endif
 
 up: ## Start all services
 	@echo "Starting Docker images..."
-	docker-compose up -d
+	docker-compose up
 	@echo "Docker images started!"
 
 up_build: ## Build all services
@@ -40,8 +40,8 @@ restart: ## Restart all services
 
 ## Database
 db-shell: ## Open psql shell to the database
-	PGPASSWORD=$$POSTGRES_PASSWORD docker exec -e PGPASSWORD=$$POSTGRES_PASSWORD -it flight-search-app-postgres-1 \
-	psql -h localhost -p 5432 -U $$POSTGRES_USER -d $$POSTGRES_DB
+	docker exec -e PGPASSWORD=$$POSTGRES_PASSWORD -it flight-search-app-postgres-1 \
+	psql -h localhost -U $$POSTGRES_USER -d $$POSTGRES_DB
 
 db-migrate: ## Apply schema changes using Drizzle
 	@echo "Migrating database schema with Drizzle(Generate + Migrate)..."
