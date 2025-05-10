@@ -10,6 +10,6 @@ module.exports = {
         '\\.css$': 'identity-obj-proxy',
     },
     setupFilesAfterEnv: ['@testing-library/jest-dom'],
-    testPathIgnorePatterns: ['/node_modules/', '/.next/'],
+    testPathIgnorePatterns: ['/node_modules/', '/.next/', '/cypress/'],
     transformIgnorePatterns: ['/node_modules/', '/.next/'],
 };

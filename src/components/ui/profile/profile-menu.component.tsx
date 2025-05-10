@@ -27,7 +27,7 @@ export function ProfileMenu() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
-    <div ref={menuRef} className='relative'>
+    <div data-testid='profile-menu' ref={menuRef} className='relative'>
       <Button
         onClick={toggleMenu}
         variant='text'
