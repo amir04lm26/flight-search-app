@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@components/shared/button/button.component";
 import { Input } from "@components/shared/input/input.component";
-import { useToggle } from "react-use";
+import { useClickAway, useToggle } from "react-use";
 import { handleLogin, handleSignup, IFormData } from "@utils/auth/auth.util";
 
 export default function AuthModal() {
@@ -12,6 +12,7 @@ export default function AuthModal() {
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const {
     register,
@@ -33,6 +34,8 @@ export default function AuthModal() {
     setError(null);
     setIsSubmitting(false);
   };
+
+  useClickAway(modalRef, closeModal);
 
   const onSubmit = async (data: IFormData) => {
     setIsSubmitting(true);
@@ -59,7 +62,9 @@ export default function AuthModal() {
 
       {isOpen && (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
-          <div className='bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-xl w-full max-w-md p-6 shadow-lg relative animate-fade-in'>
+          <div
+            ref={modalRef}
+            className='bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-xl w-full max-w-xs sm:max-w-sm md:max-w-md p-6 shadow-lg relative animate-fade-in'>
             <Button
               onClick={closeModal}
               variant='icon'

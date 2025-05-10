@@ -1,13 +1,17 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@components/shared/button/button.component";
 import Image from "next/image";
+import { useClickAway } from "react-use";
 
 export function ProfileMenu() {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useClickAway(menuRef, () => setIsOpen(false));
 
   if (!session) return null;
 
@@ -23,7 +27,7 @@ export function ProfileMenu() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
-    <div className='relative'>
+    <div ref={menuRef} className='relative'>
       <Button
         onClick={toggleMenu}
         variant='text'
