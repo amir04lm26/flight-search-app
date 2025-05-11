@@ -1,10 +1,11 @@
+import { PageLoading } from "@components/shared/loading/page-loading.component";
 import { SearchForm } from "@components/ui/search/search-form";
 import { TopBanner } from "@components/ui/top-banner/top-banner.component";
 import { Suspense } from "react";
 
 export default function Home() {
   return (
-    <Suspense fallback='loading...'>
+    <Suspense fallback={<PageLoading />}>
       <TopBanner />
       <SearchForm />
 
