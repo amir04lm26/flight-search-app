@@ -1,9 +1,12 @@
 import "@styles/globals.css";
+import "@styles/react-calendar.override.css";
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { PropsWithChildren } from "react";
 import Head from "next/head";
 import ClientLayout from "./client-layout";
+import clsx from "clsx";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +38,11 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        className={clsx(
+          geistSans.variable,
+          geistMono.variable,
+          "max-w-7xl mx-auto"
+        )}>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

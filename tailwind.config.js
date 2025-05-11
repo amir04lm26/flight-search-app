@@ -1,4 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+import forms from '@tailwindcss/forms';
+import aspectRatio from '@tailwindcss/aspect-ratio';
+import typography from '@tailwindcss/typography';
+
 module.exports = {
     darkMode: 'media',
     content: [
@@ -13,6 +17,11 @@ module.exports = {
                     light: "#FFCD56",
                     DEFAULT: "#FFB300",
                     dark: "#E08C00",
+                },
+                blue: {
+                    light: "#3C8D99",
+                    DEFAULT: "#26A0D1", // This could be used for buttons and accents
+                    dark: "#1E8AB4",
                 },
                 gray: {
                     100: "#F7F9FC",
@@ -51,8 +60,8 @@ module.exports = {
         },
     },
     plugins: [
-        require("@tailwindcss/forms"),
-        require("@tailwindcss/aspect-ratio"),
-        require("@tailwindcss/typography"),
+        forms,
+        aspectRatio,
+        typography
     ],
 };

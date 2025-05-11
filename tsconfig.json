@@ -20,6 +20,8 @@
       }
     ],
     "paths": {
+      "@constants/*": ["./src/utils/constants/*"],
+      "@dto/*": ["./src/utils/dto/*"],
       "@*": ["./src/*"],
     }
   },

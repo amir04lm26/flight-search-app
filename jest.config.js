@@ -7,6 +7,8 @@ module.exports = {
         '^@/(.*)$': '<rootDir>/src/$1',
         '^@configs/(.*)$': '<rootDir>/src/configs/$1',
         '^@libs/(.*)$': '<rootDir>/src/libs/$1',
+        '^@constants/(.*)$': '<rootDir>/src/utils/constants/$1',
+        '^@dto/(.*)$': '<rootDir>/src/utils/dto/$1',
         '\\.css$': 'identity-obj-proxy',
     },
     setupFilesAfterEnv: ['@testing-library/jest-dom'],

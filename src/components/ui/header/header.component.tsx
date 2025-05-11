@@ -9,7 +9,7 @@ export function Header() {
 
   return (
     <header className='bg-white dark:bg-gray-900 shadow-md dark:shadow-none h-16'>
-      <div className='max-w-7xl mx-auto px-4 h-full flex items-center justify-between'>
+      <div className='px-4 h-full flex items-center justify-between'>
         <div className='flex items-center space-x-2'>
           <Image
             src='/logo.svg'

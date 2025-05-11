@@ -1,7 +1,7 @@
 import { users } from "@/db/schema";
 import { db } from "@db";
+import { ISignupFormData } from "@dto/auth.dto";
 import { hashPassword } from "@libs/auth/hash";
-import { ISignupFormData } from "@utils/dto/auth.dto";
 import { ResponseUtil } from "@utils/http/response";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";

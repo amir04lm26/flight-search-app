@@ -1,11 +1,11 @@
 import clsx from "clsx";
-import React from "react";
+import { ChangeEvent } from "react";
 
 type InputProps = {
-  type: "text" | "email" | "password" | "number";
+  type?: "text" | "email" | "password" | "number";
   placeholder: string;
   value?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   disabled?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -13,7 +13,7 @@ type InputProps = {
 };
 
 export const Input = ({
-  type,
+  type = "text",
   placeholder,
   value,
   onChange,
