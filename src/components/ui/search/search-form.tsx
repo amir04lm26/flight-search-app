@@ -23,58 +23,73 @@ export function SearchForm() {
   } = useSearchForm();
 
   return (
-    <div className='max-w-2xl -mt-24 lg:-mt-32 relative z-2 mx-4 sm:mx-10 md:mx-auto p-6 bg-white shadow-lg rounded-lg'>
+    <div className='max-w-2xl lg:max-w-3xl xl:max-w-11/12 -mt-24 lg:-mt-32 xl:-mt-32 relative z-2 mx-4 sm:mx-10 md:mx-auto p-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-lg rounded-lg'>
       <h2 className='text-2xl font-semibold mb-4'>Flight Search</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
-        <Input
-          type='text'
-          placeholder='Origin (IATA Code)'
-          error={errors.origin?.message}
-          {...register("origin", { required: "Origin is required" })}
-        />
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='space-y-4 xl:space-y-0 xl:flex xl:space-x-4 xl:flex-wrap'>
+        <div className='xl:flex-1'>
+          <Input
+            type='text'
+            placeholder='Origin (IATA Code)'
+            error={errors.origin?.message}
+            {...register("origin", { required: "Origin is required" })}
+          />
+        </div>
 
-        <Input
-          type='text'
-          placeholder='Destination (IATA Code)'
-          error={errors.destination?.message}
-          {...register("destination", { required: "Destination is required" })}
-        />
+        <div className='xl:flex-1'>
+          <Input
+            type='text'
+            placeholder='Destination (IATA Code)'
+            error={errors.destination?.message}
+            {...register("destination", {
+              required: "Destination is required",
+            })}
+          />
+        </div>
 
-        <DateInput
-          placeholder='Departure Date'
-          value={departureDate}
-          onChange={handleDepartureDateChange}
-          error={errors.departureDate?.message}
-        />
+        <div className='xl:flex-1'>
+          <DateInput
+            placeholder='Departure Date'
+            value={departureDate}
+            onChange={handleDepartureDateChange}
+            error={errors.departureDate?.message}
+          />
+        </div>
 
-        <DateInput
-          placeholder='Return Date'
-          value={returnDate}
-          minDate={new Date(departureDate)}
-          onChange={handleReturnDateChange}
-          error={errors.returnDate?.message}
-        />
+        <div className='xl:flex-1'>
+          <DateInput
+            placeholder='Return Date'
+            value={returnDate}
+            minDate={new Date(departureDate)}
+            onChange={handleReturnDateChange}
+            error={errors.returnDate?.message}
+          />
+        </div>
 
-        <GuestSelection
-          currentValues={{
-            child: watch("child"),
-            adult: watch("adult"),
-            rooms: watch("rooms"),
-          }}
-          onChange={(values) => {
-            setValue("child", values.child ?? 0, { shouldValidate: true });
-            setValue("adult", values.adult ?? 1, { shouldValidate: true });
-            setValue("rooms", values.rooms ?? 1, { shouldValidate: true });
-          }}
-          error={
-            errors.child?.message ??
-            errors.adult?.message ??
-            errors.rooms?.message
-          }
-          register={register}
-          errors={errors}
-          setValue={setValue}
-        />
+        <div className='xl:flex-1'>
+          <GuestSelection
+            currentValues={{
+              child: watch("child"),
+              adult: watch("adult"),
+              rooms: watch("rooms"),
+            }}
+            onChange={(values) => {
+              setValue("child", values.child ?? 0, { shouldValidate: true });
+              setValue("adult", values.adult ?? 1, { shouldValidate: true });
+              setValue("rooms", values.rooms ?? 1, { shouldValidate: true });
+            }}
+            error={
+              errors.child?.message ??
+              errors.adult?.message ??
+              errors.rooms?.message
+            }
+            register={register}
+            errors={errors}
+            setValue={setValue}
+          />
+        </div>
+
         <Button type='submit' fullWidth>
           Search Flights
         </Button>
