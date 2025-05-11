@@ -6,6 +6,7 @@ import { Input } from "../input.component";
 import { useClickAway, useToggle } from "react-use";
 import clsx from "clsx";
 import { DEFAULT_DATE_FORMAT } from "@constants/date.constant";
+import { Dropdown } from "@components/shared/drop-down/drop-down.component";
 
 type DateInputProps = Readonly<{
   value?: string; // "2025-05-01" or "2025-05-01 to 2025-05-07"
@@ -95,19 +96,18 @@ export function DateInput({
         onClick={toggleShowCalendar}
         error={error}
       />
-      {showCalendar && (
-        <div
-          data-testid='calendar-modal'
-          className='absolute z-50 top-10 mt-2 rounded-md shadow-lg bg-white dark:bg-gray-800 border dark:border-gray-600'>
-          <Calendar
-            selectRange={selectRange}
-            onChange={handleDateChange}
-            value={selectRange ? selectedRange : selectedDate}
-            minDate={today}
-            className={clsx({ range: selectRange })}
-          />
-        </div>
-      )}
+      <Dropdown
+        data-testid='calendar-modal'
+        isOpen={showCalendar}
+        toggleOpen={toggleShowCalendar}>
+        <Calendar
+          selectRange={selectRange}
+          onChange={handleDateChange}
+          value={selectRange ? selectedRange : selectedDate}
+          minDate={today}
+          className={clsx({ range: selectRange })}
+        />
+      </Dropdown>
     </div>
   );
 }

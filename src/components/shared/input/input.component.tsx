@@ -8,6 +8,7 @@ type InputProps = {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   disabled?: boolean;
+  className?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 };
@@ -19,10 +20,11 @@ export const Input = ({
   onChange,
   error,
   disabled = false,
+  className,
   ...rest
 }: InputProps) => {
   return (
-    <div className='mb-5'>
+    <div className={clsx("mb-5", className)}>
       <input
         type={type}
         placeholder={placeholder}

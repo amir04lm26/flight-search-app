@@ -4,6 +4,7 @@ import { Input } from "@components/shared/input/input.component";
 import { Button } from "@components/shared/button/button.component";
 import { DateInput } from "@components/shared/input/date/date-input.component";
 import { useSearchForm } from "./use-search-form.hook";
+import { GuestSelection } from "./guest-selection/guest-selection.component";
 
 export function SearchForm() {
   const {
@@ -18,7 +19,7 @@ export function SearchForm() {
   } = useSearchForm();
 
   return (
-    <div className='max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg'>
+    <div className='max-w-2xl -mt-24 lg:-mt-32 relative z-2 mx-4 sm:mx-10 md:mx-auto p-6 bg-white shadow-lg rounded-lg'>
       <h2 className='text-2xl font-semibold mb-4'>Flight Search</h2>
       <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
         <Input
@@ -50,36 +51,26 @@ export function SearchForm() {
           error={errors.departureDate?.message ?? errors.returnDate?.message}
         />
 
-        <Input
-          type='number'
-          placeholder='Children'
-          error={errors.child?.message}
-          {...register("child", {
-            required: "Children count is required",
-            min: { value: 0, message: "At least 0 children" },
-          })}
+        <GuestSelection
+          currentValues={{
+            child: watch("child"),
+            adult: watch("adult"),
+            rooms: watch("rooms"),
+          }}
+          onChange={(values) => {
+            setValue("child", values.child ?? 0, { shouldValidate: true });
+            setValue("adult", values.adult ?? 1, { shouldValidate: true });
+            setValue("rooms", values.rooms ?? 1, { shouldValidate: true });
+          }}
+          error={
+            errors.child?.message ??
+            errors.adult?.message ??
+            errors.rooms?.message
+          }
+          register={register}
+          errors={errors}
+          setValue={setValue}
         />
-
-        <Input
-          type='number'
-          placeholder='Adults'
-          error={errors.adult?.message}
-          {...register("adult", {
-            required: "Adults count is required",
-            min: { value: 1, message: "At least 1 adult" },
-          })}
-        />
-
-        <Input
-          type='number'
-          placeholder='Rooms'
-          error={errors.rooms?.message}
-          {...register("rooms", {
-            required: "Room count is required",
-            min: { value: 1, message: "At least 1 room" },
-          })}
-        />
-
         <Button type='submit' fullWidth>
           Search Flights
         </Button>
