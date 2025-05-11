@@ -1,14 +1,21 @@
-import { format, isBefore, parseISO } from "date-fns";
+import {
+  addDays,
+  differenceInDays,
+  format,
+  isBefore,
+  parseISO,
+} from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { SearchFormData } from "./search.model";
 import { useEffect } from "react";
+import { DEFAULT_DATE_FORMAT } from "@constants/date.constant";
 
 export function useSearchForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const today = new Date();
-  const todayStr = format(today, "yyyy-MM-dd");
+  const todayStr = format(today, DEFAULT_DATE_FORMAT);
 
   const queryDeparture = searchParams.get("departureDate");
   const queryReturn = searchParams.get("returnDate");
@@ -34,7 +41,13 @@ export function useSearchForm() {
       rooms: Number(searchParams.get("rooms")) || 1,
     },
   });
-  const { setValue } = searchForm;
+  const { watch, setValue } = searchForm;
+
+  useEffect(() => {
+    // Sync form values with query string (in case of external change)
+    setValue("departureDate", defaultDeparture);
+    setValue("returnDate", defaultReturn);
+  }, [defaultDeparture, defaultReturn, setValue]);
 
   const onSubmit = async (data: SearchFormData) => {
     const query = new URLSearchParams({
@@ -50,14 +63,36 @@ export function useSearchForm() {
     router.push(`?${query.toString()}`);
   };
 
-  useEffect(() => {
-    // Sync form values with query string (in case of external change)
-    setValue("departureDate", defaultDeparture);
-    setValue("returnDate", defaultReturn);
-  }, [defaultDeparture, defaultReturn, setValue]);
+  const departureDate = watch("departureDate");
+  const returnDate = watch("returnDate");
+
+  const handleDepartureDateChange = (val: string) => {
+    const oldDepartureDate = departureDate;
+    setValue("departureDate", val, { shouldValidate: true });
+
+    if (oldDepartureDate && returnDate) {
+      const daysDifference = differenceInDays(
+        parseISO(returnDate),
+        parseISO(oldDepartureDate)
+      );
+
+      const updatedReturnDate = addDays(parseISO(val), daysDifference);
+      setValue("returnDate", format(updatedReturnDate, DEFAULT_DATE_FORMAT), {
+        shouldValidate: true,
+      });
+    }
+  };
+
+  const handleReturnDateChange = (val: string) => {
+    setValue("returnDate", val, { shouldValidate: true });
+  };
 
   return {
     searchForm,
+    departureDate,
+    returnDate,
     onSubmit,
+    handleDepartureDateChange,
+    handleReturnDateChange,
   };
 }

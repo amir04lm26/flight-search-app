@@ -14,6 +14,7 @@ type DateInputProps = Readonly<{
   error?: string;
   placeholder?: string;
   selectRange?: boolean;
+  minDate?: Date;
 }>;
 
 export function DateInput({
@@ -22,12 +23,13 @@ export function DateInput({
   error,
   placeholder = "Select date",
   selectRange = false,
+  minDate,
 }: DateInputProps) {
   const [showCalendar, toggleShowCalendar] = useToggle(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedRange, setSelectedRange] = useState<[Date, Date] | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
-  const today = new Date();
+  const localMinDate = minDate ?? new Date();
 
   useEffect(() => {
     if (!value) {
@@ -104,7 +106,7 @@ export function DateInput({
           selectRange={selectRange}
           onChange={handleDateChange}
           value={selectRange ? selectedRange : selectedDate}
-          minDate={today}
+          minDate={localMinDate}
           className={clsx({ range: selectRange })}
         />
       </Dropdown>

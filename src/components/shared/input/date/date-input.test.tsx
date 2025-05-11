@@ -46,6 +46,28 @@ describe("DateInput Component", () => {
     expect(disabledDay).toBeInTheDocument();
   });
 
+  it("does not allow selecting dates before minDate", () => {
+    const minDate = new Date();
+    minDate.setDate(minDate.getDate() + 5);
+
+    render(<DateInput value='' onChange={jest.fn()} minDate={minDate} />);
+
+    fireEvent.click(screen.getByPlaceholderText("Select date"));
+
+    const calendar = screen.getByTestId("calendar-modal");
+
+    const beforeMinDate = subDays(minDate, 1);
+    const beforeMinDateFormatted = format(
+      beforeMinDate,
+      CALENDAR_VISUAL_DATE_FORMAT
+    );
+
+    const disabledBeforeMinDate = calendar.querySelector(
+      `.react-calendar__tile[disabled] [aria-label='${beforeMinDateFormatted}']`
+    );
+    expect(disabledBeforeMinDate).toBeInTheDocument();
+  });
+
   it("selects a single date when not in range mode", () => {
     const handleChange = jest.fn();
     const today = new Date();

@@ -15,7 +15,11 @@ export function SearchForm() {
       setValue,
       watch,
     },
+    departureDate,
+    returnDate,
     onSubmit,
+    handleDepartureDateChange,
+    handleReturnDateChange,
   } = useSearchForm();
 
   return (
@@ -37,18 +41,18 @@ export function SearchForm() {
         />
 
         <DateInput
-          selectRange
-          value={
-            watch("departureDate") && watch("returnDate")
-              ? `${watch("departureDate")} to ${watch("returnDate")}`
-              : watch("departureDate")
-          }
-          onChange={(val) => {
-            const [start, end] = val.split(" to ");
-            setValue("departureDate", start, { shouldValidate: true });
-            setValue("returnDate", end || "", { shouldValidate: true });
-          }}
-          error={errors.departureDate?.message ?? errors.returnDate?.message}
+          placeholder='Departure Date'
+          value={departureDate}
+          onChange={handleDepartureDateChange}
+          error={errors.departureDate?.message}
+        />
+
+        <DateInput
+          placeholder='Return Date'
+          value={returnDate}
+          minDate={new Date(departureDate)}
+          onChange={handleReturnDateChange}
+          error={errors.returnDate?.message}
         />
 
         <GuestSelection
