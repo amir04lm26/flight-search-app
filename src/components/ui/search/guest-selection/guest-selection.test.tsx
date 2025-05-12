@@ -8,7 +8,7 @@ function WrapperComponent({
   onChange,
   error,
 }: Readonly<{
-  currentValues: { child: number; adult: number; rooms: number };
+  currentValues: { child: number; adults: number; rooms: number };
   onChange: (values: IGuestInfo) => void;
   error?: string;
 }>) {
@@ -48,7 +48,7 @@ function clickDecrement(labelText: string, times = 1) {
 }
 
 describe("GuestSelection component", () => {
-  const defaultValues = { child: 1, adult: 2, rooms: 1 };
+  const defaultValues = { child: 1, adults: 2, rooms: 1 };
 
   it("renders input with correct placeholder value", () => {
     render(
@@ -57,7 +57,7 @@ describe("GuestSelection component", () => {
 
     const input = screen.getByTestId("dropdown-input");
     expect(input).toBeInTheDocument();
-    expect(input).toHaveValue("1 child, 2 adult, 1 room");
+    expect(input).toHaveValue("1 child, 2 adults, 1 room");
   });
 
   it("closes dropdown correctly", async () => {
@@ -100,12 +100,12 @@ describe("GuestSelection component", () => {
 
     expect(handleChange).toHaveBeenCalledWith({
       child: 2,
-      adult: 4,
+      adults: 4,
       rooms: 2,
     });
   });
 
-  it("enforces minimum adult and room values", () => {
+  it("enforces minimum adults and room values", () => {
     const handleChange = jest.fn();
 
     render(
@@ -122,7 +122,7 @@ describe("GuestSelection component", () => {
     fireEvent.mouseDown(screen.getByTestId("outside"));
 
     expect(handleChange).toHaveBeenCalledWith({
-      adult: 1,
+      adults: 1,
       child: 0,
       rooms: 1,
     });

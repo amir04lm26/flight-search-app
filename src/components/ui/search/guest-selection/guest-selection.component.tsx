@@ -9,7 +9,7 @@ import { CountInput } from "@components/shared/input/count/count-input.component
 
 export interface IGuestInfo {
   child: number;
-  adult: number;
+  adults: number;
   rooms: number;
 }
 
@@ -17,7 +17,7 @@ type GuestSelectionProps = Readonly<{
   currentValues: IGuestInfo;
   onChange: (values: IGuestInfo) => void;
   error: string | undefined;
-  errors: { child?: FieldError; adult?: FieldError; rooms?: FieldError };
+  errors: { child?: FieldError; adults?: FieldError; rooms?: FieldError };
   setValue: UseFormSetValue<SearchFormData>;
 }>;
 
@@ -30,11 +30,11 @@ export function GuestSelection({
 }: GuestSelectionProps) {
   const [isDropdownOpen, toggleDropdown] = useToggle(false);
   const [child, setChild] = useState(currentValues.child);
-  const [adult, setAdult] = useState(currentValues.adult);
+  const [adults, setAdult] = useState(currentValues.adults);
   const [rooms, setRooms] = useState(currentValues.rooms);
 
   const handleSave = () => {
-    onChange({ child, adult, rooms });
+    onChange({ child, adults, rooms });
     toggleDropdown(false);
   };
 
@@ -45,7 +45,7 @@ export function GuestSelection({
 
   const handleChangeAdult = (newValue: number) => {
     setAdult(newValue);
-    setValue("adult", newValue);
+    setValue("adults", newValue);
   };
 
   const handleChangeRooms = (newValue: number) => {
@@ -59,7 +59,7 @@ export function GuestSelection({
         data-testid='dropdown-input'
         type='text'
         placeholder='Children, Adults, Rooms'
-        value={`${currentValues.child} child, ${currentValues.adult} adult, ${
+        value={`${currentValues.child} child, ${currentValues.adults} adults, ${
           currentValues.rooms
         } room${currentValues.rooms > 1 ? "s" : ""}`}
         readOnly
@@ -75,11 +75,11 @@ export function GuestSelection({
           <div className='p-4 space-y-4'>
             <CountInput
               label='Adults'
-              name='adult'
-              value={adult}
+              name='adults'
+              value={adults}
               min={1}
               onChange={handleChangeAdult}
-              error={errors.adult}
+              error={errors.adults}
             />
 
             <CountInput

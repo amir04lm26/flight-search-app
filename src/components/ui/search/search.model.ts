@@ -4,6 +4,6 @@ export type SearchFormData = {
   departureDate: string;
   returnDate?: string;
   child: number;
-  adult: number;
+  adults: number;
   rooms: number;
 };

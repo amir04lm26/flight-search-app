@@ -5,7 +5,7 @@ export function mapFlightSearchParams(
   const destination = params.get("destination"); // PAR
   const departureDate = params.get("departure-date");
   const returnDate = params.get("return-date");
-  const adult = params.get("adult");
+  const adults = params.get("adults");
   const child = params.get("child");
 
   const searchParams = {
@@ -13,7 +13,8 @@ export function mapFlightSearchParams(
     ...(destination && { destinationLocationCode: destination.toUpperCase() }),
     ...(departureDate && { departureDate }),
     ...(returnDate && { returnDate }),
-    ...(adult && { adults: adult }),
+    ...(adults && { adults: adults ?? 1 }),
+    // NOTE: handle rooms if possible
     ...(child && { children: child }),
     currencyCode: "USD",
     max: "10",

@@ -1,0 +1,6 @@
+{
+  "data": null,
+  "error": true,
+  "message": "Failed to load the flights data (Mock)!",
+  "status_code": 200
+}

@@ -14,5 +14,14 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './auth'
-import './search-form'
+import "./auth";
+import "./search-form";
+
+beforeEach(() => {
+  cy.fixture("flights.json").then((mockResponse) => {
+    cy.intercept("GET", /\/api\/flight-offers\?.*/, {
+      statusCode: 200,
+      body: mockResponse,
+    }).as("getFlights");
+  });
+});

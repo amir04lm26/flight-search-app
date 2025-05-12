@@ -18,8 +18,8 @@ export function useSearchForm() {
   const today = new Date();
   const todayStr = format(today, DEFAULT_DATE_FORMAT);
 
-  const queryDeparture = searchParams.get("departureDate");
-  const queryReturn = searchParams.get("returnDate");
+  const queryDeparture = searchParams.get("departure-date");
+  const queryReturn = searchParams.get("return-date");
 
   const defaultDeparture =
     queryDeparture && !isBefore(parseISO(queryDeparture), today)
@@ -38,7 +38,7 @@ export function useSearchForm() {
       departureDate: defaultDeparture,
       returnDate: defaultReturn,
       child: Number(searchParams.get("child")) || 0,
-      adult: Number(searchParams.get("adult")) || 1,
+      adults: Number(searchParams.get("adults")) || 1,
       rooms: Number(searchParams.get("rooms")) || 1,
     },
   });
@@ -57,7 +57,7 @@ export function useSearchForm() {
       "departure-date": data.departureDate,
       ...(data.returnDate && { "return-date": data.returnDate }),
       ...(data.child && { child: data.child.toString() }),
-      ...(data.adult && { adult: data.adult.toString() }), // value > 1 -> greater than default value
+      ...(data.adults && { adults: data.adults.toString() }), // value > 1 -> greater than default value
       ...(data.rooms && { rooms: data.rooms.toString() }),
     });
 
@@ -90,7 +90,7 @@ export function useSearchForm() {
 
   const handleGuestSelectionChange = (val: IGuestInfo) => {
     setValue("child", val.child ?? 0, { shouldValidate: true });
-    setValue("adult", val.adult ?? 1, { shouldValidate: true });
+    setValue("adults", val.adults ?? 1, { shouldValidate: true });
     setValue("rooms", val.rooms ?? 1, { shouldValidate: true });
   };
 

@@ -1,11 +1,11 @@
 import { PageLoading } from "@components/shared/loading/page-loading.component";
-import { FlightsList } from "@components/ui/flights/flights-list.component";
+import FlightsWrapper from "@components/ui/flights/flights-wrapper.component";
 import { SearchForm } from "@components/ui/search/search-form";
 import { TopBanner } from "@components/ui/top-banner/top-banner.component";
 import { NEXT_PUBLIC_BASE_URL } from "@configs/services.config";
 import { FLIGHT_SEARCH_ENDPOINT } from "@constants/endpoint.constant";
-import { IFlightSearchResponse } from "@dto/flights.dto";
-import { ApiResponse } from "@utils/http/response";
+import { FlightSearchApiResponse } from "@dto/flights.dto";
+import { getFlightsSwrKey } from "@utils/flight-search/flights-swr.util";
 import { Suspense } from "react";
 
 export default async function Home({
@@ -14,14 +14,10 @@ export default async function Home({
   searchParams: Promise<Record<string, string>>;
 }>) {
   const sp = await searchParams;
-  const hasRequiredParams =
-    sp.originLocationCode &&
-    sp.destinationLocationCode &&
-    sp.departureDate &&
-    sp.adults;
-  let jsonRes: ApiResponse<IFlightSearchResponse> | null = null;
+  const swrKey = getFlightsSwrKey(sp);
+  let jsonRes: FlightSearchApiResponse | null = null;
 
-  if (hasRequiredParams) {
+  if (swrKey) {
     const params = new URLSearchParams(sp).toString();
     const url = `${NEXT_PUBLIC_BASE_URL}/${FLIGHT_SEARCH_ENDPOINT}?${params}`;
 
@@ -33,13 +29,11 @@ export default async function Home({
     }
   }
 
-  console.log({ jsonRes });
-
   return (
     <Suspense fallback={<PageLoading />}>
       <TopBanner />
       <SearchForm />
-      <FlightsList />
+      <FlightsWrapper searchParams={sp} fallbackData={jsonRes} />
     </Suspense>
   );
 }

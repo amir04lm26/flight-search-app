@@ -72,13 +72,13 @@ export function SearchForm() {
           <GuestSelection
             currentValues={{
               child: watch("child"),
-              adult: watch("adult"),
+              adults: watch("adults"),
               rooms: watch("rooms"),
             }}
             onChange={handleGuestSelectionChange}
             error={
               errors.child?.message ??
-              errors.adult?.message ??
+              errors.adults?.message ??
               errors.rooms?.message
             }
             errors={errors}
