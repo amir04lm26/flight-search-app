@@ -27,8 +27,8 @@ describe("Flight Search Form", () => {
 
     cy.url().should("include", "origin=Tehran");
     cy.url().should("include", "destination=Kish");
-    cy.url().should("include", "departureDate=");
-    cy.url().should("include", "returnDate=");
+    cy.url().should("include", "departure-date=");
+    cy.url().should("include", "return-date=");
     cy.url().should("include", "adult=3");
     cy.url().should("include", "child=1");
     cy.url().should("include", "rooms=2");

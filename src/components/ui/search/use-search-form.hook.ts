@@ -54,11 +54,11 @@ export function useSearchForm() {
     const query = new URLSearchParams({
       origin: data.origin,
       destination: data.destination,
-      departureDate: data.departureDate,
-      ...(data.returnDate && { returnDate: data.returnDate }),
+      "departure-date": data.departureDate,
+      ...(data.returnDate && { "return-date": data.returnDate }),
       ...(data.child && { child: data.child.toString() }),
-      ...(data.adult && data.adult > 1 && { adult: data.adult.toString() }), // value > 1 -> greater than default value
-      ...(data.rooms && data.rooms > 1 && { rooms: data.rooms.toString() }),
+      ...(data.adult && { adult: data.adult.toString() }), // value > 1 -> greater than default value
+      ...(data.rooms && { rooms: data.rooms.toString() }),
     });
 
     router.push(`?${query.toString()}`);

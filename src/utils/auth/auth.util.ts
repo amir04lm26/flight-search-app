@@ -1,3 +1,4 @@
+import { LOGIN_ENDPOINT, SIGNUP_ENDPOINT } from "@constants/endpoint.constant";
 import { signIn } from "next-auth/react";
 
 export interface IFormData {
@@ -8,7 +9,7 @@ export interface IFormData {
 }
 
 export const handleLogin = async (data: IFormData): Promise<boolean> => {
-  const res = await signIn("credentials", {
+  const res = await signIn(LOGIN_ENDPOINT, {
     redirect: false,
     email: data.email,
     password: data.password,
@@ -25,7 +26,7 @@ export const handleSignup = async (data: IFormData): Promise<boolean> => {
     throw Error("Some fields are missing");
   }
 
-  const response = await fetch("/api/auth/signup", {
+  const response = await fetch(SIGNUP_ENDPOINT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

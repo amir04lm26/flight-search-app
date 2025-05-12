@@ -1,27 +1,30 @@
 import { PageLoading } from "@components/shared/loading/page-loading.component";
+import { FlightsList } from "@components/ui/flights/flights-list.component";
 import { SearchForm } from "@components/ui/search/search-form";
 import { TopBanner } from "@components/ui/top-banner/top-banner.component";
+import { NEXT_PUBLIC_BASE_URL } from "@configs/services.config";
+import { FLIGHT_SEARCH_ENDPOINT } from "@constants/endpoint.constant";
+import { IFlightSearchResponse } from "@dto/flights.dto";
+import { ApiResponse } from "@utils/http/response";
 import { Suspense } from "react";
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: Readonly<{
+  searchParams: Promise<Record<string, string>>;
+}>) {
+  const params = new URLSearchParams(await searchParams).toString();
+  const url = `${NEXT_PUBLIC_BASE_URL}/${FLIGHT_SEARCH_ENDPOINT}?${params}`;
+  const res = await fetch(url, { next: { revalidate: 3600 } }); // cache for 1 hour
+  const jsonRes: ApiResponse<IFlightSearchResponse> = await res.json();
+
+  console.log({ jsonRes });
+
   return (
     <Suspense fallback={<PageLoading />}>
       <TopBanner />
       <SearchForm />
-
-      <div className='container mx-auto px-4 py-6'>
-        <div className='bg-white dark:bg-gray-900 shadow-card rounded-md p-6'>
-          <h2 className='text-xl font-display text-gray-900 dark:text-gray-100 mb-2'>
-            Flight to Tokyo
-          </h2>
-          <p className='text-gray-500 dark:text-gray-400'>
-            Departure: 10:00 AM
-          </p>
-          <span className='text-primary font-semibold dark:text-primary-light'>
-            From $420
-          </span>
-        </div>
-      </div>
+      <FlightsList />
     </Suspense>
   );
 }
