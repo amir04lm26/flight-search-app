@@ -12,5 +12,7 @@ declare namespace Cypress {
     toggleProfileMenu(): Chainable<void>;
     logout(): Chainable<void>;
     mockAuthSetup(): Chainable<void>;
+    clickIncrement(labelText: string, times?: number): Chainable<void>;
+    clickDecrement(labelText: string, times?: number): Chainable<void>;
   }
 }

@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { SearchFormData } from "./search.model";
 import { useEffect } from "react";
 import { DEFAULT_DATE_FORMAT } from "@constants/date.constant";
+import { IGuestInfo } from "./guest-selection/guest-selection.component";
 
 export function useSearchForm() {
   const searchParams = useSearchParams();
@@ -87,6 +88,12 @@ export function useSearchForm() {
     setValue("returnDate", val, { shouldValidate: true });
   };
 
+  const handleGuestSelectionChange = (val: IGuestInfo) => {
+    setValue("child", val.child ?? 0, { shouldValidate: true });
+    setValue("adult", val.adult ?? 1, { shouldValidate: true });
+    setValue("rooms", val.rooms ?? 1, { shouldValidate: true });
+  };
+
   return {
     searchForm,
     departureDate,
@@ -94,5 +101,6 @@ export function useSearchForm() {
     onSubmit,
     handleDepartureDateChange,
     handleReturnDateChange,
+    handleGuestSelectionChange,
   };
 }

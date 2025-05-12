@@ -20,6 +20,7 @@ export function SearchForm() {
     onSubmit,
     handleDepartureDateChange,
     handleReturnDateChange,
+    handleGuestSelectionChange,
   } = useSearchForm();
 
   return (
@@ -74,17 +75,12 @@ export function SearchForm() {
               adult: watch("adult"),
               rooms: watch("rooms"),
             }}
-            onChange={(values) => {
-              setValue("child", values.child ?? 0, { shouldValidate: true });
-              setValue("adult", values.adult ?? 1, { shouldValidate: true });
-              setValue("rooms", values.rooms ?? 1, { shouldValidate: true });
-            }}
+            onChange={handleGuestSelectionChange}
             error={
               errors.child?.message ??
               errors.adult?.message ??
               errors.rooms?.message
             }
-            register={register}
             errors={errors}
             setValue={setValue}
           />

@@ -15,3 +15,4 @@
 
 // Import commands.js using ES2015 syntax:
 import './auth'
+import './search-form'

@@ -13,7 +13,6 @@ function WrapperComponent({
   error?: string;
 }>) {
   const {
-    register,
     setValue,
     formState: { errors },
   } = useForm<SearchFormData>({
@@ -26,13 +25,26 @@ function WrapperComponent({
         currentValues={currentValues}
         onChange={onChange}
         error={error}
-        register={register}
         errors={errors}
         setValue={setValue}
       />
       <div data-testid='outside' /> {/* simulate outside click */}
     </div>
   );
+}
+
+function clickIncrement(labelText: string, times = 1) {
+  const incrementBtn = screen
+    .getByText(new RegExp(labelText, "i"))
+    .parentElement!.querySelectorAll("button")[1];
+  for (let i = 0; i < times; i++) fireEvent.click(incrementBtn);
+}
+
+function clickDecrement(labelText: string, times = 1) {
+  const decrementBtn = screen
+    .getByText(new RegExp(labelText, "i"))
+    .parentElement!.querySelectorAll("button")[0];
+  for (let i = 0; i < times; i++) fireEvent.click(decrementBtn);
 }
 
 describe("GuestSelection component", () => {
@@ -60,6 +72,11 @@ describe("GuestSelection component", () => {
 
     expect(screen.getByTestId("dropdown-floating"));
 
+    const adultCount = screen
+      .getByText(/Adults/i)
+      .parentElement!.querySelector("span");
+    expect(adultCount).toHaveTextContent("2");
+
     fireEvent.mouseDown(screen.getByTestId("outside"));
 
     expect(screen.queryByTestId("dropdown-floating")).not.toBeInTheDocument();
@@ -75,20 +92,15 @@ describe("GuestSelection component", () => {
     const input = screen.getByTestId("dropdown-input");
     fireEvent.click(input);
 
-    const childInput = screen.getByLabelText(/Children/i);
-    fireEvent.change(childInput, { target: { value: "2" } });
-
-    const adultInput = screen.getByLabelText(/Adults/i);
-    fireEvent.change(adultInput, { target: { value: "3" } });
-
-    const roomsInput = screen.getByLabelText(/Rooms/i);
-    fireEvent.change(roomsInput, { target: { value: "2" } });
+    clickIncrement("Adults", 2);
+    clickIncrement("Children", 1);
+    clickIncrement("Rooms", 1);
 
     fireEvent.mouseDown(screen.getByTestId("outside"));
 
     expect(handleChange).toHaveBeenCalledWith({
       child: 2,
-      adult: 3,
+      adult: 4,
       rooms: 2,
     });
   });
@@ -103,17 +115,15 @@ describe("GuestSelection component", () => {
     const input = screen.getByTestId("dropdown-input");
     fireEvent.click(input);
 
-    const adultInput = screen.getByLabelText(/Adults/i);
-    fireEvent.change(adultInput, { target: { value: "0" } });
-
-    const roomsInput = screen.getByLabelText(/Rooms/i);
-    fireEvent.change(roomsInput, { target: { value: "0" } });
+    clickDecrement("adults", 2);
+    clickDecrement("children", 2);
+    clickDecrement("rooms", 2);
 
     fireEvent.mouseDown(screen.getByTestId("outside"));
 
     expect(handleChange).toHaveBeenCalledWith({
-      child: 1,
       adult: 1,
+      child: 0,
       rooms: 1,
     });
   });
