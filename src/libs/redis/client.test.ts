@@ -6,6 +6,7 @@ jest.mock("redis", () => {
     connect: jest.fn().mockResolvedValue(undefined),
     quit: jest.fn().mockResolvedValue(undefined),
     on: jest.fn(),
+    configSet: jest.fn().mockResolvedValue(undefined),
   };
   return {
     createClient: jest.fn(() => mClient),
