@@ -4,6 +4,7 @@ import { createClient } from "redis";
 jest.mock("redis", () => {
   const mClient = {
     connect: jest.fn().mockResolvedValue(undefined),
+    quit: jest.fn().mockResolvedValue(undefined),
     on: jest.fn(),
   };
   return {
@@ -32,5 +33,23 @@ describe("RedisClient", () => {
 
     expect(createClient).toHaveBeenCalledTimes(1);
     expect(client1).toBe(client2);
+  });
+
+  it("should disconnect and reset the client", async () => {
+    const client = await RedisClient.new();
+    await RedisClient.disconnect();
+    expect(client.quit).toHaveBeenCalledTimes(1);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(RedisClient["client"]).toBeNull();
+  });
+
+  it("should do nothing on disconnect if client is null", async () => {
+    const client = await RedisClient.new();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore - override for test purposes
+    RedisClient["client"] = null;
+    await RedisClient.disconnect();
+    expect(client.quit).not.toHaveBeenCalled();
   });
 });

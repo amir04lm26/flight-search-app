@@ -18,9 +18,17 @@ export class RedisClient {
 
       await this.client.connect().catch((err) => {
         console.error("Error connecting to Redis:", err);
+        throw err;
       });
     }
 
     return this.client;
+  }
+
+  public static async disconnect(): Promise<void> {
+    if (this.client) {
+      await this.client.quit();
+      this.client = null;
+    }
   }
 }
