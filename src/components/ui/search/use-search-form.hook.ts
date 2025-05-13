@@ -5,7 +5,7 @@ import {
   isBefore,
   parseISO,
 } from "date-fns";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { SearchFormData } from "./search.model";
 import { useEffect } from "react";
@@ -14,7 +14,6 @@ import { IGuestInfo } from "./guest-selection/guest-selection.component";
 
 export function useSearchForm() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const today = new Date();
   const todayStr = format(today, DEFAULT_DATE_FORMAT);
 
@@ -61,7 +60,8 @@ export function useSearchForm() {
       ...(data.rooms && { rooms: data.rooms.toString() }),
     });
 
-    router.push(`?${query.toString()}`);
+    // Use shallow history push
+    window.history.pushState({}, "", `?${query.toString()}`);
   };
 
   const departureDate = watch("departureDate");
