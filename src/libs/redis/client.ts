@@ -16,10 +16,6 @@ export class RedisClient {
 
       try {
         await this.client.connect();
-
-        // Redis maxmemory set to 80MB with LRU eviction policy
-        await this.client.configSet("maxmemory", "80mb");
-        await this.client.configSet("maxmemory-policy", "allkeys-lru");
       } catch (err) {
         console.error("Error connecting to Redis:", err);
         throw err;
